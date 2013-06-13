@@ -8,7 +8,6 @@
  * @author   Kazuya Hiruma (http://css-eblog.com/)
  * @version  0.0.1
  */
-
 (function (win, doc, ns, undefined) {
 
 'use strict';
