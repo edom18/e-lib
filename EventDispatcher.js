@@ -81,6 +81,10 @@
         }
     });
 
+    /*! ---------------------------------------------------------
+        EXPORTS
+    ------------------------------------------------------------- */
+
     exports.EventDispatcher = EventDispatcher;
 
 }(window, window.document, window.Class, window));
