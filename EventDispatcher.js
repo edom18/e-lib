@@ -1,12 +1,12 @@
 (function (win, doc, Class, ns) {
 
     var EventObject = Class.extend({
-        init: function (target, args, opt) {
+        init: function (context, args, opt) {
             util.copyClone(this, args, opt);
-            this.target = target;
+            this._context = context;
         },
         stopPropagation: function () {
-            this.target._bubbleCanceled = true;
+            this._context._bubbleCanceled = true;
         }
     });
 
@@ -22,7 +22,7 @@
             if (!typ) {
                 throw "INVALID EVENT TYPE " + typ;
             }
-            
+
             var obj = this.handlers || (this.handlers = {}),
                 arr = [].concat(obj[typ] || []), //Use copy
                 evt = new EventObject(this, opt_evt, {
