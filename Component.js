@@ -7,8 +7,9 @@
             //
         },
         _add: function (cmp) {
-            this._children || (this._children = []);
-            this._children.push(cmp);
+            this.children || (this.children = []);
+            this.children.push(cmp);
+            cmp.parent = this;
         },
         addChild: function (cmp) {
             if (cmp.parent) {
@@ -17,7 +18,7 @@
             this._add(cmp);
         },
         removeChild: function (cmp) {
-            var children = this._children;
+            var children = this.children;
 
             for (var i = 0, l = children.length; i < l; i++) {
                 if (children[i] === cmp) {
@@ -28,7 +29,29 @@
         },
         remove: function () {
             this.parent.removeChild(this);
+        },
+
+        /** @override */
+        trigger: function (typ, opt_evt) {
+
+            (opt_evt || (opt_evt = {})).currentTarget = this;
+
+            if (!opt_evt.target) {
+                opt_evt.target = this;
+            }
+
+            this._super(typ, opt_evt);
+
+            if (this._bubbleCanceled) {
+                this._bubbleCanceled = false;
+                return;
+            }
+
+            if (this.parent) {
+                this.parent.trigger(typ, opt_evt);
+            }
         }
+
     });
 
     /*! ---------------------------------------------------------

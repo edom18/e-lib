@@ -1,4 +1,14 @@
-(function (win, doc, Class, exports) {
+(function (win, doc, Class, ns) {
+
+    var EventObject = Class.extend({
+        init: function (target, args, opt) {
+            util.copyClone(this, args, opt);
+            this.target = target;
+        },
+        stopPropagation: function () {
+            this.target._bubbleCanceled = true;
+        }
+    });
 
     var EventDispatcher = Class.extend({
 
@@ -15,20 +25,20 @@
             
             var obj = this.handlers || (this.handlers = {}),
                 arr = [].concat(obj[typ] || []), //Use copy
-                evt = opt_evt || {},
+                evt = new EventObject(this, opt_evt, {
+                    type: typ
+                }),
                 len, i, fnc;
-                
-            evt.type || (evt.type = typ);
             
             // handle specified event type
             for (i = 0, len = arr.length; i < len; ++i) {
-                (fnc = arr[i][0]) && fnc.call(arr[i][1] || this, this, evt);
+                (fnc = arr[i][0]) && fnc.call(arr[i][1] || this, evt);
             }
             
             // handle wildcard "*" event
             arr  = obj["*"] || [];
             for (i = 0, len = arr.length; i < len; ++i) {
-                (fnc = arr[i][0]) && fnc.call(arr[i][1] || this, this, evt);
+                (fnc = arr[i][0]) && fnc.call(arr[i][1] || this, evt);
             }
         },
 
@@ -54,13 +64,23 @@
          *  @param {function(evt:object):void} fnc
          */
         off: function (typ, fnc) {
+
+            this.handlers || (this.handlers = {});
+
             if (!typ) {
-                throw "off:INVALID EVENT TYPE " + typ + " " + fn;
+                this.handlers = {};
+                return;
+            }
+
+            if (!fnc) {
+                this.handlers[typ] = [];
+                return;
             }
             
-            var obj = this.handlers || (this.handlers = {}),
+            var obj = this.handlers,
                 arr = obj[typ] || [],
                 i = arr.length;
+
                 
             while(i) {
                 arr[--i][0] === fnc && arr.splice(i, 1);
@@ -85,6 +105,6 @@
         EXPORTS
     ------------------------------------------------------------- */
 
-    exports.EventDispatcher = EventDispatcher;
+    ns.EventDispatcher = EventDispatcher;
 
 }(window, window.document, window.Class, window));
