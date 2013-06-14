@@ -114,6 +114,24 @@
 
             assert.equal(true, not_called);
         });
+
+        it('targetで発生元、currentTargetで監視要素を参照できる', function () {
+            parent.addChild(child1);
+            child1.addChild(child2);
+            child2.addChild(child3);
+
+            parent.on('reftest', function (evt) {
+                assert.equal(parent, evt.currentTarget);
+                assert.equal(child3, evt.target);
+            });
+
+            child2.on('reftest', function (evt) {
+                assert.equal(child2, evt.currentTarget);
+                assert.equal(child3, evt.target);
+            });
+
+            child3.trigger('reftest');
+        });
     });
 
     describe('EventDispatcher test', function () {
