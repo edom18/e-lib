@@ -2,10 +2,15 @@
 
     var EventObject = Class.extend({
         init: function (context, args, opt) {
-            util.copyClone(this, args, opt);
+            var stopPropagation = this.stopPropagation;
+            util.copyClone(this, context, args, opt);
             this._context = context;
+            this.stopPropagation = stopPropagation;
         },
         stopPropagation: function () {
+            if (this._context.stopPropagation) {
+                this._context.stopPropagation();
+            }
             this._context._bubbleCanceled = true;
         }
     });
@@ -106,5 +111,6 @@
     ------------------------------------------------------------- */
 
     ns.EventDispatcher = EventDispatcher;
+    ns.EventObject     = EventObject;
 
 }(window, window.document, window.Class, window));
