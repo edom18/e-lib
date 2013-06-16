@@ -462,6 +462,9 @@ util.isEmpty     = isEmpty;
 util.hasProp     = hasProp;
 util.getParams   = getParams;
 
+util.nullFunction = function () {};
+util.abstractFunction = function () {throw new Error('MUST BE IMPLEMENT THIS FUNCTION.');}
+
 //export to global.
 ns.util = util;
 
