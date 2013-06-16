@@ -8,12 +8,22 @@
             this.children.push(cmp);
             cmp.parent = this;
         },
+
+        /**
+         * Add a component.
+         * @param {Component} cmp
+         */
         addChild: function (cmp) {
             if (cmp.parent) {
                 cmp.remove();
             }
             this._add(cmp);
         },
+
+        /**
+         * Remove a component.
+         * @param {Component} cmp
+         */
         removeChild: function (cmp) {
             var children = this.children;
 
@@ -24,8 +34,15 @@
                 }
             }
         },
+
+        /**
+         * Remove this component from the parent.
+         */
         remove: function () {
-            this.parent.removeChild(this);
+            if (this.parent) {
+                this.parent.removeChild(this);
+                this.parent = null;
+            }
         },
 
         /** @override */
@@ -47,8 +64,13 @@
             if (this.parent) {
                 this.parent.trigger(typ, opt_evt);
             }
-        }
+        },
 
+        /** @override */
+        dispose: function () {
+            this._super();
+            this.remove();
+        }
     });
 
     /*! ---------------------------------------------------------

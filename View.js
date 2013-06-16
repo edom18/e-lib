@@ -24,6 +24,18 @@
         },
 
         /** @override */
+        addChild: function (view) {
+            this._super.apply(this, arguments);
+            this.el.appendChild(view.el);
+        },
+
+        /** @override */
+        removeChild: function (view) {
+            this._super.apply(this, arguments);
+            this.el.removeChild(view.el);
+        },
+
+        /** @override */
         dispose: function () {
             this._super();
 
