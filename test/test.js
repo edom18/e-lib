@@ -256,73 +256,83 @@
         });
     });
 
-    //document.addEventListener('DOMContentLoaded', function () {
-    //    var NewView = View.extend({
-    //        events: {
-    //            '#div3': {
-    //                click: {
-    //                    handler: function (e) {
-    //                        console.log('div3', e);
-    //                    },
-    //                    capture: false
-    //                }
-    //            },
-    //            '#div1': {
-    //                click: {
-    //                    handler: function (e) {
-    //                        console.log('div1', e);
-    //                    }
-    //                }
-    //            },
-    //            '#div2': {
-    //                mousemove: {
-    //                    handler: function (e) {
-    //                        if (this._dragging) {
-    //                            console.log(e);
-    //                        }
-    //                    }
-    //                },
-    //                mousedown: {
-    //                    handler: function (e) {
-    //                        this._dragging = true;
-    //                    }
-    //                },
-    //                mouseup: {
-    //                    handler: function (e) {
-    //                        this._dragging = false;
-    //                    }
-    //                }
-    //            }
-    //        },
-    //        initialize: function () {
-    //            var div1 = document.createElement('div');
-    //            var div2 = document.createElement('div');
-    //            var div3 = document.createElement('div');
+    document.addEventListener('DOMContentLoaded', function () {
+        var NewView = View.extend({
+            events: {
+                '#div3': {
+                    click: {
+                        handler: function (e) {
+                            console.log('div3', e);
+                        },
+                        capture: false
+                    }
+                },
+                '#div1': {
+                    click: {
+                        handler: function (e) {
+                            console.log('div1', e);
+                        }
+                    }
+                },
+                '#div2': {
+                    mousemove: {
+                        handler: function (e) {
+                            if (this._dragging) {
+                                console.log(e);
+                            }
+                        }
+                    },
+                    mousedown: {
+                        handler: function (e) {
+                            this._dragging = true;
+                        }
+                    },
+                    mouseup: {
+                        handler: function (e) {
+                            this._dragging = false;
+                        }
+                    }
+                }
+            },
+            initialize: function () {
+                var view1 = new View({
+                    id: 'div1'
+                });
+                var view2 = new View({
+                    id: 'div2'
+                });
+                var view3 = new View({
+                    id: 'div3'
+                });
 
-    //            div1.id = 'div1';
-    //            div2.id = 'div2';
-    //            div3.id = 'div3';
+                view1.addChild(view2);
+                view2.addChild(view3);
 
-    //            div1.appendChild(div2);
-    //            div2.appendChild(div3);
+                view2.el.style.height = '300px';
+                view2.el.style.background = 'red';
+                view2.el.style.position = 'relative';
 
-    //            div2.style.height = '300px';
-    //            div2.style.background = 'red';
-    //            div2.style.position = 'relative';
+                view3.el.style.position = 'absolute';
+                view3.el.style.right = '10px';
+                view3.el.style.top = '10px';
+                view3.el.style.background = 'blue';
+                view3.el.style.width = '20px';
+                view3.el.style.height = '20px';
 
-    //            div3.style.position = 'absolute';
-    //            div3.style.right = '10px';
-    //            div3.style.top = '10px';
-    //            div3.style.background = 'blue';
-    //            div3.style.width = '20px';
-    //            div3.style.height = '20px';
+                view1.on('hoge', function (e) {
+                    console.log(e);
+                });
+                view2.on('hoge', function (e) {
+                    console.log(e);
+                });
+                view3.trigger('hoge');
 
-    //            this.el.appendChild(div1);
+                this.el.appendChild(view1.el);
 
-    //            document.body.appendChild(this.el);
-    //        }
-    //    });
+                document.body.appendChild(this.el);
+            }
+        });
 
-    //    window.nview = new NewView();
-    //}, false);
+        window.nview = new NewView();
+    }, false);
 }());
