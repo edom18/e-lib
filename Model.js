@@ -12,14 +12,22 @@
             var attribute = args || {};
 
             //setting this model's id.
-            this.id = (attribute.id) ? attribute.id : modelIdBase + (++modelIdIndex);
+            this.id = (attribute.id) ? attribute.id : modelIdBase + (modelIdIndex++);
 
             if (this.defaults) {
                 util.copyClone(attribute, this.defaults);
             }
 
+            var params = {};
+            for (var i in attribute) if (attribute.hasOwnProperty(i)) {
+                if (typeof attribute[i] === 'function') {
+                    continue;
+                }
+                params[i] = attribute[i];
+            }
+
             //set data by defaults and argumetns.
-            this.set(attribute, {silent: true});
+            this.set(params, {silent: true});
 
             //copy to `_previousAttributes` current attributes.
             this._previousAttributes = util.copyClone({}, this.attributes);
