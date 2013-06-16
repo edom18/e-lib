@@ -38,8 +38,15 @@
             }
         },
 
+        /** @override */
+        dispose: function () {
+            this._super();
+            this.attributes = null;
+            this._previousAttributes = null;
+        },
+
         /**
-         * @returns {Boolean} return true if model has been changed.
+         * @return {Boolean} return true if model has been changed.
          */
         hasChanged: function () {
             return !util.isEmpty(this._changed);
