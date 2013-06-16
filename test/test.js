@@ -333,9 +333,8 @@
                 });
                 view3.trigger('hoge');
 
-                this.el.appendChild(view1.el);
-
-                document.body.appendChild(this.el);
+                view1.appendTo(this);
+                this.appendTo(document.body);
             }
         });
 
