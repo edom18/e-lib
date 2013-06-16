@@ -278,33 +278,25 @@
                         handler: function (e) {
                             console.log('div3', e);
                         },
-                        capture: false
+                        capture: true
                     }
                 },
                 '#div1': {
-                    click: {
-                        handler: function (e) {
-                            console.log('div1', e);
-                        }
+                    click: function (e) {
+                        console.log('div1', e);
                     }
                 },
                 '#div2': {
-                    mousemove: {
-                        handler: function (e) {
-                            if (this._dragging) {
-                                console.log(e);
-                            }
+                    mousemove: function (e) {
+                        if (this._dragging) {
+                            console.log(e);
                         }
                     },
-                    mousedown: {
-                        handler: function (e) {
-                            this._dragging = true;
-                        }
+                    mousedown: function (e) {
+                        this._dragging = true;
                     },
-                    mouseup: {
-                        handler: function (e) {
-                            this._dragging = false;
-                        }
+                    mouseup: function (e) {
+                        this._dragging = false;
                     }
                 }
             },
