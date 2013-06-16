@@ -2,9 +2,32 @@
 
     var assert = require("assert");
 
-    describe('Model test', function() {
+    describe('Model Spec', function() {
 
-        var model = new Model();
+        var model = null;
+
+        beforeEach(function () {
+            model = new Model();
+        });
+
+        it('defaultsで指定した値がデフォルトになる', function () {
+            var NewModel = Model.extend({
+                defaults: {
+                    hoge: 'fuga',
+                    foo: 'bar',
+                    baz: {
+                        test: 1
+                    }
+                }
+            });
+
+            var nmodel = new NewModel();
+
+            assert.equal('fuga', nmodel.get('hoge'));
+            assert.equal('bar', nmodel.get('foo'));
+            assert.equal(undefined, model.get('fugafuga'));
+            assert.equal(1, nmodel.get('baz').test);
+        });
 
         it('set(obj)形式でセット、get("string")で各値が取り出せる', function() {
             var obj = {
@@ -37,7 +60,10 @@
         });
     });
 
-    describe('Component test', function () {
+    describe('View Spec', function () {
+    });
+
+    describe('Component Spec', function () {
         var parent = null;
         var child1 = null;
         var child2 = null;
@@ -134,7 +160,7 @@
         });
     });
 
-    describe('EventDispatcher test', function () {
+    describe('EventDispatcher Spec', function () {
 
         var evt = null;
 
