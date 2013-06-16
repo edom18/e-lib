@@ -2,6 +2,76 @@
 
     var assert = require("assert");
 
+    document.addEventListener('DOMContentLoaded', function () {
+        var NewView = View.extend({
+            events: {
+                '#div3': {
+                    click: {
+                        handler: function (e) {
+                            console.log('div3', e);
+                        },
+                        capture: false
+                    }
+                },
+                '#div1': {
+                    click: {
+                        handler: function (e) {
+                            console.log('div1', e);
+                        }
+                    }
+                },
+                '#div2': {
+                    mousemove: {
+                        handler: function (e) {
+                            if (this._dragging) {
+                                console.log(e);
+                            }
+                        }
+                    },
+                    mousedown: {
+                        handler: function (e) {
+                            this._dragging = true;
+                        }
+                    },
+                    mouseup: {
+                        handler: function (e) {
+                            this._dragging = false;
+                        }
+                    }
+                }
+            },
+            initialize: function () {
+                var div1 = document.createElement('div');
+                var div2 = document.createElement('div');
+                var div3 = document.createElement('div');
+
+                div1.id = 'div1';
+                div2.id = 'div2';
+                div3.id = 'div3';
+
+                div1.appendChild(div2);
+                div2.appendChild(div3);
+
+                div2.style.height = '300px';
+                div2.style.background = 'red';
+                div2.style.position = 'relative';
+
+                div3.style.position = 'absolute';
+                div3.style.right = '10px';
+                div3.style.top = '10px';
+                div3.style.background = 'blue';
+                div3.style.width = '20px';
+                div3.style.height = '20px';
+
+                this.el.appendChild(div1);
+
+                document.body.appendChild(this.el);
+            }
+        });
+
+        window.nview = new NewView();
+    }, false);
+
     describe('Model Spec', function() {
 
         var model = null;
