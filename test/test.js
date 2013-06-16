@@ -276,7 +276,8 @@
                 '#div3': {
                     click: {
                         handler: function (e) {
-                            console.log('div3', e);
+                            var bg = ['red', 'blue', 'green', 'yellow', 'white', 'black'];
+                            this.model.set('background', bg[~~(Math.random() * bg.length)]);
                         },
                         capture: true
                     }
@@ -301,21 +302,14 @@
                 }
             },
             initialize: function () {
-                var view1 = new View({
-                    id: 'div1'
-                });
-                var view2 = new View({
-                    id: 'div2'
-                });
-                var view3 = new View({
-                    id: 'div3'
-                });
+                var view1 = new View({ id: 'div1' });
+                var view2 = new View({ id: 'div2' });
+                var view3 = new View({ id: 'div3' });
 
                 view1.addChild(view2);
                 view2.addChild(view3);
 
                 view2.el.style.height = '300px';
-                view2.el.style.background = 'red';
                 view2.el.style.position = 'relative';
 
                 view3.el.style.position = 'absolute';
@@ -335,9 +329,23 @@
 
                 view1.appendTo(this);
                 this.appendTo(document.body);
+
+                this.model.on('change', this.render, this);
+
+                this.render();
+            },
+
+            render: function () {
+                var color = this.model.get('background');
+                this.el.style.background = color;
             }
         });
 
-        window.nview = new NewView();
+        var model = new Model({
+            background: 'red'
+        });
+        window.nview = new NewView({
+            model: model
+        });
     }, false);
 }());
