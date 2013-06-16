@@ -23,6 +23,13 @@
             }
         },
 
+        appendTo: function (target) {
+            if (target instanceof View) {
+                target = target.el;
+            }
+            target.appendChild(this.el);
+        },
+
         /** @override */
         addChild: function (view) {
             this._super.apply(this, arguments);
@@ -33,6 +40,14 @@
         removeChild: function (view) {
             this._super.apply(this, arguments);
             this.el.removeChild(view.el);
+        },
+
+        /** @override */
+        remove: function () {
+            this._super();
+            if (this.el.parentNode) {
+                this.el.parentNode.removeChild(this.el);
+            }
         },
 
         /** @override */
@@ -67,45 +82,45 @@
                 el = this.el;
 
             for (var target in this.events) {
-                    for (var name in this.events[target]) {
-                        (function (that, target) {
-                            var handler = null,
-                                capture = false,
-                                els     = null;
+                for (var name in this.events[target]) {
+                    (function (that, target) {
+                        var handler = null,
+                            capture = false,
+                            els     = null;
 
-                            if (util.isObject(that.events[target][name])) {
-                                handler = that.events[target][name].handler;
-                                capture = that.events[target][name].capture || false;
-                            }
-                            else {
-                                handler = that.events[target][name];
-                            }
+                        if (util.isObject(that.events[target][name])) {
+                            handler = that.events[target][name].handler;
+                            capture = that.events[target][name].capture || false;
+                        }
+                        else {
+                            handler = that.events[target][name];
+                        }
 
-                            function _innerHandler(e) {
-                                var res, evt, els;
+                        function _innerHandler(e) {
+                            var res, evt, els;
 
-                                els = [].slice.call(el.querySelectorAll(target));
-                                for (var i = 0, l = els.length; i < l; i++) {
-                                    res = els[i].compareDocumentPosition(e.target);
-                                    if (!(res === 0 || res & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
-                                        continue;
-                                    }
-                                    evt = new EventObject(e, {
-                                        originalEvent: e
-                                    });
-                                    evt.currentTarget = els[i];
-                                    handler.call(that, evt);
-                                    evt = null;
+                            els = [].slice.call(el.querySelectorAll(target));
+                            for (var i = 0, l = els.length; i < l; i++) {
+                                res = els[i].compareDocumentPosition(e.target);
+                                if (!(res === 0 || res & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
+                                    continue;
                                 }
+                                evt = new EventObject(e, {
+                                    originalEvent: e
+                                });
+                                evt.currentTarget = els[i];
+                                handler.call(that, evt);
+                                evt = null;
                             }
+                        }
 
-                            //registor this handler.
-                            domHandlers.push([name, _innerHandler, capture]);
+                        //registor this handler.
+                        domHandlers.push([name, _innerHandler, capture]);
 
-                            //attach event to the `el`.
-                            el.addEventListener(name, _innerHandler, capture);
-                        }(this, target));
-                    }
+                        //attach event to the `el`.
+                        el.addEventListener(name, _innerHandler, capture);
+                    }(this, target));
+                }
             }
         },
 
