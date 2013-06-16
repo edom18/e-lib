@@ -79,7 +79,6 @@
                 this._domHandlers = null;
             }
 
-            el.parentNode.removeChild(el);
             this.el = null;
         },
 

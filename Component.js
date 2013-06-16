@@ -69,6 +69,14 @@
         /** @override */
         dispose: function () {
             this._super();
+
+            if (this.children) {
+                for (var i = 0, l = this.children.length; i < l; i++) {
+                    this.children[i].dispose();
+                }
+                this.children = null;
+            }
+
             this.remove();
         }
     });
