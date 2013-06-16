@@ -48,12 +48,11 @@
             assert.equal('fuga', model.get('hoge'));
         });
 
-        it('previousで前回の値が参照できる', function (done) {
+        it('previousで前回の値が参照できる', function () {
             model.set('hoge', 'hoge1');
 
             model.on('change', function (evt) {
                 assert.equal('hoge1', this.previous('hoge'));
-                done();
             });
 
             model.set('hoge', 'hoge2');
@@ -69,12 +68,11 @@
         var child2 = null;
         var child3 = null;
 
-        beforeEach(function (done) {
+        beforeEach(function () {
             parent = new Component();
             child1 = new Component();
             child2 = new Component();
             child3 = new Component();
-            done();
         });
         it('addChildで追加することができる', function () {
             parent.addChild(child1);
@@ -100,23 +98,25 @@
             assert.equal(child3, parent.children[1]);
         });
 
-        it('Eventがバブリングする', function (done) {
+        it('Eventがバブリングする', function () {
             parent.addChild(child1);
 
+            var all_called = 0;
             parent.on('child2-event', function (evt) {
-                assert.ok(true);
-                done();
+                all_called++;
             });
 
             child1.addChild(child2);
 
             child1.on('child2-event', function (evt) {
-                console.log('done');
+                all_called++;
             });
 
             child2.trigger('child2-event', {
                 data: 'data'
             });
+
+            assert.equal(2, all_called);
         });
 
         it('stopPropagationでバブリングをキャンセルできる', function () {
