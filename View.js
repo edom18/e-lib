@@ -23,6 +23,21 @@
             }
         },
 
+        css: function (styles) {
+            if (arguments.length === 2) {
+                styles = {};
+                styles[arguments[0]] = arguments[1];
+            }
+
+            for (var name in styles) {
+                this.el.style[name] = styles[name];
+            }
+        },
+
+        /**
+         * Append to the target.
+         * @param {View|Element} target
+         */
         appendTo: function (target) {
             if (target instanceof View) {
                 target = target.el;
