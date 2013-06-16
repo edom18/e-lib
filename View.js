@@ -83,58 +83,91 @@
             this.el = null;
         },
 
+        /** @override */
+         on: function (typ, fnc, context) {
+             var target;
+
+             if (util.isString(fnc)) {
+                 typ = arguments[0];
+                 fnc = arguments[2];
+                 target  = arguments[1];
+                 context = arguments[3];
+
+                 this._setEvent(typ, target, fnc, false, context);
+             }
+             else {
+                 this._super.apply(this, arguments);
+             }
+        },
+
         render: util.nullFunction,
 
         /*! ----------------------------------------------------------------
             PRIVATE METHODS.
         -------------------------------------------------------------------- */
+        /**
+         * Set dom event as delegator.
+         * @param {string} name An event name.
+         * @param {string} target Targets css selector.
+         * @param {Function} handler An event handler.
+         * @param {boolean} capture capture phase boolean.
+         * @param {Function} context Context function.
+         */
+        _setEvent: function (name, target, handler, capture, context) {
+
+            var that = this,
+                el   = this.el,
+                domHandlers = this._domHandlers || (this._domHandlers = []);
+        
+            function _innerHandler(e) {
+                var res, evt, els;
+
+                els = [].slice.call(el.querySelectorAll(target));
+                for (var i = 0, l = els.length; i < l; i++) {
+                    res = els[i].compareDocumentPosition(e.target);
+                    if (!(res === 0 || res & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
+                        continue;
+                    }
+                    evt = new EventObject(e, {
+                        originalEvent: e
+                    });
+                    evt.currentTarget = els[i];
+                    handler.call((context || that), evt);
+                    evt = null;
+                }
+            }
+
+            //registor this handler.
+            domHandlers.push([name, _innerHandler, capture]);
+
+            //attach event to the `el`.
+            el.addEventListener(name, _innerHandler, capture);
+        },
+
+        /**
+         * Set events by this.events.
+         */
         _setEvents: function () {
             if (!this.events) {
                 return;
             }
 
-            var domHandlers = this._domHandlers || (this._domHandlers = []),
-                el = this.el;
+            var handler, capture;
 
             for (var target in this.events) {
                 for (var name in this.events[target]) {
-                    (function (that, target) {
-                        var handler = null,
-                            capture = false,
-                            els     = null;
+                    handler = null;
+                    capture = false;
 
-                        if (util.isObject(that.events[target][name])) {
-                            handler = that.events[target][name].handler;
-                            capture = that.events[target][name].capture || false;
-                        }
-                        else {
-                            handler = that.events[target][name];
-                        }
+                    if (util.isObject(this.events[target][name])) {
+                        handler = this.events[target][name].handler;
+                        capture = this.events[target][name].capture || false;
+                    }
+                    else {
+                        handler = this.events[target][name];
+                    }
 
-                        function _innerHandler(e) {
-                            var res, evt, els;
-
-                            els = [].slice.call(el.querySelectorAll(target));
-                            for (var i = 0, l = els.length; i < l; i++) {
-                                res = els[i].compareDocumentPosition(e.target);
-                                if (!(res === 0 || res & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
-                                    continue;
-                                }
-                                evt = new EventObject(e, {
-                                    originalEvent: e
-                                });
-                                evt.currentTarget = els[i];
-                                handler.call(that, evt);
-                                evt = null;
-                            }
-                        }
-
-                        //registor this handler.
-                        domHandlers.push([name, _innerHandler, capture]);
-
-                        //attach event to the `el`.
-                        el.addEventListener(name, _innerHandler, capture);
-                    }(this, target));
+                    this._setEvent(name, target, handler, capture);
                 }
             }
         },
