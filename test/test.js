@@ -57,6 +57,20 @@
 
             model.set('hoge', 'hoge2');
         });
+
+        it('disposeで内容を破棄できる', function () {
+            var called = false;
+            model.set('hoge', 'hoge2');
+            model.on('change', function () {
+                called = true;
+            });
+            model.dispose();
+            model.trigger('change');
+
+            assert.equal(null, model.attributes);
+            assert.equal(null, model._previousAttributes);
+            assert.equal(false, called);
+        });
     });
 
     describe('View Spec', function () {
