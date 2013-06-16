@@ -42,6 +42,10 @@ function hasProp(obj, prop) {
     return objProto.hasOwnProperty.call(obj, prop);
 }
 
+function isObject(obj) {
+    return toString.call(obj) === '[object Object]';
+}
+
 function isFunction(obj) {
     return toString.call(obj) === '[object Function]';
 }
@@ -69,6 +73,8 @@ function isUndefined(obj) {
 var isArray = Array.isArray || function (obj) {
     return toString.call(obj) === '[object Array]';
 };
+
+
 
 function isEmpty(obj) {
 
@@ -452,6 +458,7 @@ util.when        = when;
 util.makeArr     = makeArr;
 util.bind        = bind;
 util.copyClone   = copyClone;
+util.isObject    = isObject;
 util.isFunction  = isFunction;
 util.isString    = isString;
 util.isNumber    = isNumber;
