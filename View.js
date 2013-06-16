@@ -4,7 +4,7 @@
     var base_name = 'view-',
         index_id  = 0;
 
-    var View = Class.extend({
+    var View = Component.extend({
         className: 'view-component',
         init: function (args) {
 

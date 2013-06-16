@@ -3,9 +3,6 @@
     'use strict';
 
     var Component = EventDispatcher.extend({
-        init: function () {
-            //
-        },
         _add: function (cmp) {
             this.children || (this.children = []);
             this.children.push(cmp);
