@@ -1,5 +1,10 @@
 (function (win, doc, Class, ns) {
 
+    /**
+     * An Event object.
+     * This class contains some object.
+     * @constructor
+     */
     var EventObject = Class.extend({
         init: function (context, args, opt) {
             var stopPropagation = this.stopPropagation;
@@ -15,6 +20,11 @@
         }
     });
 
+
+    /**
+     * This class gives a simple event dispatch system.
+     * @constructor
+     */
     var EventDispatcher = Class.extend({
 
         /**
