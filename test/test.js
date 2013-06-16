@@ -88,6 +88,7 @@
             child2 = new Component();
             child3 = new Component();
         });
+
         it('addChildで追加することができる', function () {
             parent.addChild(child1);
             assert.equal(child1, parent.children[0]);
@@ -171,6 +172,23 @@
             });
 
             child3.trigger('reftest');
+        });
+
+        it('disposeで子孫要素を削除し、自身の親要素から削除される', function () {
+            parent.addChild(child1);
+            child1.addChild(child2);
+            child2.addChild(child3);
+
+            parent.dispose();
+
+            assert.equal(null, parent.children);
+            assert.equal(null, parent.parent);
+            assert.equal(null, child1.parent);
+            assert.equal(null, child1.children);
+            assert.equal(null, child2.parent);
+            assert.equal(null, child2.children);
+            assert.equal(null, child3.parent);
+            assert.equal(null, child3.children);
         });
     });
 
@@ -306,6 +324,7 @@
                 var view2 = new View({ id: 'div2' });
                 var view3 = new View({ id: 'div3' });
 
+                this.addChild(view1);
                 view1.addChild(view2);
                 view2.addChild(view3);
 
