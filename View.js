@@ -10,7 +10,7 @@
 
             var attribute = args || {};
 
-            //setting this model's id.
+            //setting this view's id.
             this.id = (attribute.id) ? attribute.id : (base_name + index_id++);
             this.el = attribute.el || this._createElement();
             this._setEvents(this.el);
