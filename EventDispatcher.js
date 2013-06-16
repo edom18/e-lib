@@ -103,6 +103,11 @@
             }
 
             this.on(typ, _fnc, context);
+        },
+
+        dispose: function () {
+            this.off();
+            this.handlers = null;
         }
     });
 

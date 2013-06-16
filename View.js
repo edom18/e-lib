@@ -23,15 +23,18 @@
             }
         },
 
+        /** @override */
         dispose: function () {
+            this._super();
+
             var el = this.el;
 
-            if (this._handlers) {
-                for (var i = 0, l = this._handlers.length, handler; i < l; i++) {
-                    handler = this._handlers[i];
+            if (this._domHandlers) {
+                for (var i = 0, l = this._domHandlers.length, handler; i < l; i++) {
+                    handler = this._domHandlers[i];
                     el.removeEventListener(handler[0], handler[1], handler[2]);
                 }
-                this._handlers = null;
+                this._domHandlers = null;
             }
 
             this.el.parentNode.removeChild(this.el);
@@ -48,7 +51,7 @@
                 return;
             }
 
-            var handlers = this._handlers || (this._handlers = []),
+            var domHandlers = this._domHandlers || (this._domHandlers = []),
                 el = this.el;
 
             for (var target in this.events) {
@@ -77,7 +80,7 @@
                             }
 
                             //registor this handler.
-                            that._handlers.push([name, _innerHandler, capture]);
+                            domHandlers.push([name, _innerHandler, capture]);
 
                             //attach event to the `el`.
                             el.addEventListener(name, _innerHandler, capture);
