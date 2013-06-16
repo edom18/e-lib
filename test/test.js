@@ -309,15 +309,17 @@
                 view1.addChild(view2);
                 view2.addChild(view3);
 
-                view2.el.style.height = '300px';
-                view2.el.style.position = 'relative';
+                view2.css('height', '300px');
+                view2.css('position', 'relative');
 
-                view3.el.style.position = 'absolute';
-                view3.el.style.right = '10px';
-                view3.el.style.top = '10px';
-                view3.el.style.background = 'blue';
-                view3.el.style.width = '20px';
-                view3.el.style.height = '20px';
+                view3.css({
+                    'position'  : 'absolute',
+                    'right'     : '10px',
+                    'top'       : '10px',
+                    'background': 'blue',
+                    'width'     : '20px',
+                    'height'    : '20px'
+                });
 
                 view1.on('hoge', function (e) {
                     console.log(e);
