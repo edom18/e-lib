@@ -69,9 +69,17 @@
             for (var target in this.events) {
                     for (var name in this.events[target]) {
                         (function (that, target) {
-                            var handler = that.events[target][name].handler,
-                                capture = that.events[target][name].capture || false,
-                                els = null;
+                            var handler = null,
+                                capture = false,
+                                els     = null;
+
+                            if (util.isObject(that.events[target][name])) {
+                                handler = that.events[target][name].handler;
+                                capture = that.events[target][name].capture || false;
+                            }
+                            else {
+                                handler = that.events[target][name];
+                            }
 
                             function _innerHandler(e) {
                                 var res, evt, els;
