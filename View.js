@@ -49,7 +49,7 @@
                 this._domHandlers = null;
             }
 
-            this.el.parentNode.removeChild(this.el);
+            el.parentNode.removeChild(el);
             this.el = null;
         },
 
