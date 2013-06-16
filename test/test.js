@@ -333,6 +333,9 @@
                 this.appendTo(document.body);
 
                 this.model.on('change', this.render, this);
+                this.on('mouseover', '#div3', function (e) {
+                    console.log(this);
+                });
 
                 this.render();
             },
