@@ -13,7 +13,7 @@
             //setting this view's id.
             this.id = (attribute.id) ? attribute.id : (base_name + index_id++);
             this.el = attribute.el || this._createElement();
-            this._setEvents(this.el);
+            this._setEvents();
 
             this.model = attribute.model;
 
@@ -23,15 +23,33 @@
             }
         },
 
+        dispose: function () {
+            var el = this.el;
+
+            if (this._handlers) {
+                for (var i = 0, l = this._handlers.length, handler; i < l; i++) {
+                    handler = this._handlers[i];
+                    el.removeEventListener(handler[0], handler[1], handler[2]);
+                }
+                this._handlers = null;
+            }
+
+            this.el.parentNode.removeChild(this.el);
+            this.el = null;
+        },
+
         render: util.nullFunction,
 
         /*! ----------------------------------------------------------------
             PRIVATE METHODS.
         -------------------------------------------------------------------- */
-        _setEvents: function (el) {
+        _setEvents: function () {
             if (!this.events) {
                 return;
             }
+
+            var handlers = this._handlers || (this._handlers = []),
+                el = this.el;
 
             for (var target in this.events) {
                     for (var name in this.events[target]) {
@@ -40,8 +58,7 @@
                                 capture = that.events[target][name].capture || false,
                                 els = null;
 
-                            el.addEventListener(name, function (e) {
-
+                            function _innerHandler(e) {
                                 var res, evt, els;
 
                                 els = [].slice.call(el.querySelectorAll(target));
@@ -57,7 +74,13 @@
                                     handler.call(that, evt);
                                     evt = null;
                                 }
-                            }, capture);
+                            }
+
+                            //registor this handler.
+                            that._handlers.push([name, _innerHandler, capture]);
+
+                            //attach event to the `el`.
+                            el.addEventListener(name, _innerHandler, capture);
                         }(this, target));
                     }
             }
