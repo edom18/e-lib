@@ -25,7 +25,7 @@
      * This class gives a simple event dispatch system.
      * @constructor
      */
-    var EventDispatcher = Class.extend({
+    var EventDispatcher = Disposable.extend({
 
         /**
          *  @param {string}   typ
@@ -116,6 +116,7 @@
         },
 
         dispose: function () {
+            this._super();
             this.off();
             this.handlers = null;
         }
