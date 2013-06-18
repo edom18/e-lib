@@ -89,12 +89,20 @@
             child3 = new Component();
         });
 
-        it('addChildで追加することができる', function () {
+        it('length()でchildrenの要素数を取得することができる', function () {
+            parent.addChild(child1);
+            parent.addChild(child2);
+            parent.addChild(child3);
+
+            assert.equal(3, parent.length());
+        });
+
+        it('addChild()で追加することができる', function () {
             parent.addChild(child1);
             assert.equal(child1, parent.children[0]);
         });
 
-        it('addChildで元の親から削除される', function () {
+        it('addChild()で元の親から削除される', function () {
             var parent2 = new Component();
             parent.addChild(child1);
             assert.equal(child1, parent.children[0]);
@@ -103,7 +111,7 @@
             assert.equal(parent.children.length, 0);
         });
 
-        it('removeChildで削除できる', function () {
+        it('removeChild()で削除できる', function () {
             parent.addChild(child1);
             parent.addChild(child2);
             parent.addChild(child3);
