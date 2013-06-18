@@ -196,15 +196,21 @@ function filter (arr, func) {
  */
 function copyClone(obj) {
 
-    var args = arrProto.slice.call(arguments, 1),
-        l    = args.length,
-        i    = 0,
-        src, prop;
+    var args  = arrProto.slice.call(arguments, 1),
+        force = false,
+        src;
 
-    for (; i < l; i++) {
+    if (isBoolean(args[args.length - 1])) {
+        force = args.pop();
+    }
+
+    for (var i = 0, l = args.length; i < l; i++) {
         src = args[i];
-        for (prop in src) {
-            obj[prop] = args[i][prop];
+
+        for (var prop in src) {
+            if (force || !obj[prop]) {
+                obj[prop] = args[i][prop];
+            }
         }
     }
 
