@@ -10,6 +10,14 @@
         },
 
         /**
+         * Return children length.
+         * @return {number} children length.
+         */
+        length: function () {
+            return this.children.length;
+        },
+
+        /**
          * Add a component.
          * @param {Component} cmp
          */
