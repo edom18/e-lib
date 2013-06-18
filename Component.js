@@ -87,10 +87,12 @@
             this._super();
 
             if (this.children) {
-                for (var i = 0, l = this.children.length; i < l; i++) {
-                    this.children[i].dispose();
+                var children = this.children.slice();
+                for (var i = 0, l = children.length; i < l; i++) {
+                    children[i].dispose();
                 }
-                this.children = null;
+
+                this.children = children = null;
             }
 
             this.remove();
