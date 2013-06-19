@@ -11,6 +11,13 @@
 
             var attribute = args || {};
 
+            if (attribute.tagName) {
+                this.tagName = attribute.tagName;
+            }
+            if (attribute.className) {
+                this.className = attribute.className;
+            }
+
             //setting this view's id.
             this.id = (attribute.id) ? attribute.id : (base_name + index_id++);
             this.el = attribute.el || this._createElement();
