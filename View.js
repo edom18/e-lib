@@ -5,6 +5,7 @@
         index_id  = 0;
 
     var View = Component.extend({
+        tagName: 'div',
         className: 'view-component',
         init: function (args) {
 
@@ -175,7 +176,7 @@
          * Create a base element.
          */
         _createElement: function () {
-            var el = document.createElement('div');
+            var el = document.createElement(this.tagName);
             el.id = this.id;
             el.className = this.className;
             return el;
