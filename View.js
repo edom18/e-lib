@@ -88,6 +88,11 @@
             }
 
             this.el = null;
+
+            if (this.model) {
+                this.model.dispose();
+                this.model = null;
+            }
         },
 
         /** @override */
