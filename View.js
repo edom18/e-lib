@@ -166,15 +166,21 @@
                     handler = null;
                     capture = false;
 
-                    if (util.isObject(this.events[target][name])) {
-                        handler = this.events[target][name].handler;
-                        capture = this.events[target][name].capture || false;
+                    var handle_obj = this.events[target][name];
+
+                    if (util.isObject(handle_obj)) {
+                        handler = handle_obj.handler;
+                        capture = handle_obj.capture || false;
+                    }
+                    else if (util.isString(handle_obj)) {
+                        handler = this[handle_obj];
                     }
                     else {
-                        handler = this.events[target][name];
+                        handler = handle_obj;
                     }
 
                     this._setEvent(name, target, handler, capture);
+                    handle_obj = null;
                 }
             }
         },
