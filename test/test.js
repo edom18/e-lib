@@ -311,7 +311,8 @@
                 '#div1': {
                     click: function (e) {
                         console.log('div1', e);
-                    }
+                    },
+                    mousedown: 'mousedownHanlder'
                 },
                 '#div2': {
                     mousemove: function (e) {
@@ -370,6 +371,10 @@
             render: function () {
                 var color = this.model.get('background');
                 this.el.style.background = color;
+            },
+
+            mousedownHanlder: function (e) {
+                console.log('this: %o, e: %o', this, e);
             }
         });
 
