@@ -3,14 +3,10 @@
     'use strict';
 
     var Component = EventDispatcher.extend({
-        init: function (args) {
-            args || (args = {});
 
-            if (util.isFunction(args.initialize)) {
-                args.initialize.apply(this, arguments);
-            }
-        },
-
+        /**
+         * Add a component. this as internal method.
+         */
         _add: function (cmp) {
             this.children || (this.children = []);
             this.children.push(cmp);
