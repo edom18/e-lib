@@ -299,6 +299,14 @@
     document.addEventListener('DOMContentLoaded', function () {
         var NewView = View.extend({
             events: {
+                '&': {
+                    mouseout: function (e) {
+                        console.log(this, e);
+                    },
+                    click: function (e) {
+                        console.log('& click');
+                    }
+                },
                 '#div3': {
                     click: {
                         handler: function (e) {
