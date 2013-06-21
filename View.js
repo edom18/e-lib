@@ -12,12 +12,8 @@
 
             var attribute = args || {};
 
-            if (attribute.tagName) {
-                this.tagName = attribute.tagName;
-            }
-            if (attribute.className) {
-                this.className = attribute.className;
-            }
+            util.copyClone(this, attribute);
+            this._overrideProps(attribute);
 
             //setting this view's id.
             this.id = (attribute.id) ? attribute.id : (base_name + index_id++);
@@ -29,6 +25,32 @@
             //called `initialize` function if that exist on attributes.
             if (util.isFunction(this.initialize)) {
                 this.initialize.apply(this, arguments);
+            }
+        },
+        _overrideProps: function (attribute) {
+            if (attribute.tagName) {
+                this.tagName = attribute.tagName;
+            }
+            if (attribute.className) {
+                this.className = attribute.className;
+            }
+            if (attribute.events) {
+                if (this.events) {
+                    util.copyClone(this.events, attribute.events, true);
+                }
+                else {
+                    this.events = attribute.events;
+                }
+            }
+            if (util.isFunction(attribute.initialize)) {
+
+                var tmpFunc1 = this.initialize || function () {},
+                    tmpFunc2 = attribute.initialize;
+
+                this.initialize = function () {
+                    tmpFunc1.apply(this, arguments);
+                    tmpFunc2.apply(this, arguments);
+                };
             }
         },
 
@@ -94,6 +116,8 @@
                 this.model.dispose();
                 this.model = null;
             }
+
+            this.initialize = null;
         },
 
         /** @override */
