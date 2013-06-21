@@ -5,6 +5,7 @@
         index_id  = 0;
 
     var View = Component.extend({
+        mineSelector: '&',
         tagName: 'div',
         className: 'view-component',
         init: function (args) {
@@ -134,7 +135,13 @@
             function _innerHandler(e) {
                 var res, evt, els;
 
-                els = [].slice.call(el.querySelectorAll(target));
+                if (target === that.mineSelector) {
+                    els = [el];
+                }
+                else {
+                    els = [].slice.call(el.querySelectorAll(target));
+                }
+
                 for (var i = 0, l = els.length; i < l; i++) {
                     res = els[i].compareDocumentPosition(e.target);
                     if (!(res === 0 || res & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
