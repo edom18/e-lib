@@ -390,7 +390,18 @@
             background: 'red'
         });
         window.nview = new NewView({
-            model: model
+            model: model,
+            events: {
+                '&': {
+                    mouseover: 'mouseover',
+                    dblclick: function (e) {
+                        console.log('this event is defined in instancing as inline');
+                    }
+                }
+            },
+            mouseover: function () {
+                console.log('this event is defined in instancing.');
+            }
         });
     }, false);
 }());
