@@ -1,4 +1,4 @@
-(function (EventDispatcher, util, ns) {
+(function (util, ns) {
     'use strict';
 
     var base_name = 'view-',
@@ -213,4 +213,4 @@
     ------------------------------------------------------------- */
     ns.View = View;
 
-}(EventDispatcher, util, window));
+}(util, window));
