@@ -354,14 +354,25 @@ function when(arr) {
 
     var d = new Deferred(),
         i = arr.length,
-        len = i;
+        len = i,
+        results = new Array(i);
 
-    function _watch() {
-        --len || d.resolve();
+    function _watch(result, index) {
+        results[index] = result;
+
+        if (!--len) {
+            d.resolve(results);
+            results = null;
+            arr = null;
+        }
     }
 
     while(i--) {
-        arr[i].done(_watch);
+        (function (index) {
+            arr[i].done(function (res) {
+                _watch(res, index);
+            });
+        }(i));
     }
 
     return d;
