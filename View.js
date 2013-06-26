@@ -54,6 +54,10 @@
             }
         },
 
+        /**
+         * Set styles to the element.
+         * @param {string|Object} styles
+         */
         css: function (styles) {
             if (arguments.length === 2) {
                 styles = {};
@@ -62,6 +66,21 @@
 
             for (var name in styles) {
                 this.el.style[name] = styles[name];
+            }
+        },
+
+        /**
+         * Set attributes to the element.
+         * @param {string|Object} attributes
+         */
+        attr: function (attributes) {
+            if (arguments.length === 2) {
+                attributes = {};
+                attributes[arguments[0]] = arguments[1];
+            }
+
+            for (var name in attributes) {
+                this.el.setAttribute(name, attributes[name]);
             }
         },
 
