@@ -348,6 +348,12 @@
                 view2.css('height', '300px');
                 view2.css('position', 'relative');
 
+                view2.attr('class', 'attr-test');
+                view2.attr({
+                    'data-test': 'hoge',
+                    'data-test-2': 'hoge2'
+                });
+
                 view3.css({
                     'position'  : 'absolute',
                     'right'     : '10px',
