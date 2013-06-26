@@ -263,6 +263,53 @@ function getParams(str) {
     return ret;
 }
 
+/**
+ * check property suppert with property name.
+ * @param {string} prop css prop name.
+ * @return {string} supported property name.
+ */
+var prefixList = ['-webkit-', '-moz-', '-ms-'];
+function getCssPropSupport(prop) {
+
+    var testDiv = doc.createElement('div'),
+        propType = '',
+        ch    = '',
+        type1 = '',
+        type2 = '',
+        tmp = [],
+        ret = null;
+
+    if (prop in testDiv.style) {
+        ret = prop;
+    }
+    else {
+        for (var i = 0, l = prefixList.length; i < l; ++i) {
+            propType = prefixList[i] + prop;
+            tmp = /^(-)(\w+)-(\w)(\w+)$/.exec(propType);
+
+            //e.g. webkitTransform
+            type1 = tmp[2] + tmp[3].toUpperCase() + tmp[4];
+
+            //e.g. WebkitTransform
+            ch = tmp[2].slice(0, 1).toUpperCase();
+            tmp[2] = tmp[2].slice(1);
+            type2 = ch + tmp[2] + tmp[3].toUpperCase() + tmp[4];
+
+            if (type1 in testDiv.style) {
+                ret = type1;
+                break;
+            }
+            else if (type2 in testDiv.style) {
+                ret = type2;
+                break;
+            }
+        }
+    }
+
+    testDiv = null;
+    return ret;
+}
+
 function _Deferred(func) {
   
     var _queue = [],
@@ -485,6 +532,7 @@ util.isUndefined = isUndefined;
 util.isEmpty     = isEmpty;
 util.hasProp     = hasProp;
 util.getParams   = getParams;
+util.getCssPropSupport = getCssPropSupport;
 
 util.nullFunction = function () {};
 util.abstractFunction = function () {throw new Error('MUST BE IMPLEMENT THIS FUNCTION.');}
