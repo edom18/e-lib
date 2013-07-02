@@ -17,6 +17,7 @@ var objProto = Object.prototype,
     arrSlice = arrProto.slice,
     toString = objProto.toString;
 
+
 /* ---------------------------------------------------------------
    EXTEND BUILTIN OBJECTS
 ------------------------------------------------------------------ */
@@ -263,6 +264,77 @@ function getParams(str) {
     return ret;
 }
 
+function _Deferred(func) {
+    var _queue = [],
+        _data,
+        ret = {
+            isResolved: isResolved,
+            done: done,
+            resolve: resolve
+        };
+
+    function done(func) {
+        if (isFunction(func)) {
+            _queue ? _queue.push(func) : func(_data);
+        }
+
+        return this;
+    }
+    function resolve(data) {
+        if (isResolved()) {
+            return;
+        }
+
+        var arr = _queue,
+            i = 0,
+            l = arr.length;
+
+        _data = data;
+        _queue = null;
+
+        for (; i < l; i++) {
+            arr[i].apply(arr[i], arguments);
+        }
+    }
+    function isResolved() {
+        return !_queue;
+    }
+
+    if (isFunction(func)) {
+        func(ret);
+    }
+
+    return ret;
+}
+
+/**
+ * Ajax utility class.
+ */
+function ajax(url, opt) {
+
+    opt || (opt = {});
+
+    var type = opt.type || 'GET',
+        data = opt.data || null,
+
+        def = new util.Deferred(),
+        xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                def.resolve(JSON.parse(xhr.responseText), xhr);
+                def = null;
+            }
+        }
+    };
+
+    xhr.open(type, url);
+    xhr.send(data);
+
+    return def;
+}
+
 /**
  * check property suppert with property name.
  * @param {string} prop css prop name.
@@ -307,50 +379,6 @@ function getCssPropSupport(prop) {
     }
 
     testDiv = null;
-    return ret;
-}
-
-function _Deferred(func) {
-  
-    var _queue = [],
-        _data,
-        ret = {
-            isResolved: isResolved,
-            done: done,
-            resolve: resolve
-        };
-
-    function done(func) {
-        if (isFunction(func)) {
-            _queue ? _queue.push(func) : func(_data);
-        }
-
-        return this;
-    }
-    function resolve(data) {
-        if (isResolved()) {
-            return;
-        }
-
-        var arr = _queue,
-            i = 0,
-            l = arr.length;
-
-        _data = data;
-        _queue = null;
-
-        for (; i < l; i++) {
-            arr[i](data);
-        }
-    }
-    function isResolved() {
-        return !_queue;
-    }
-
-    if (isFunction(func)) {
-        func(ret);
-    }
-
     return ret;
 }
 
@@ -531,6 +559,7 @@ util.isNull      = isNull;
 util.isUndefined = isUndefined;
 util.isEmpty     = isEmpty;
 util.hasProp     = hasProp;
+util.ajax        = ajax;
 util.getParams   = getParams;
 util.getCssPropSupport = getCssPropSupport;
 
