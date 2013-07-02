@@ -318,18 +318,43 @@ function ajax(url, opt) {
         data = opt.data || null,
 
         def = new util.Deferred(),
-        xhr = new XMLHttpRequest();
+        xhr = new XMLHttpRequest(),
+
+        value = '',
+        param = '',
+        params = null;
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
+            if (xhr.status === 200 || xhr.status === 201) {
                 def.resolve(JSON.parse(xhr.responseText), xhr);
                 def = null;
+            }
+            else {
+                def.reject(xhr);
             }
         }
     };
 
+    if (isObject(data)) {
+        params = [];
+
+        for (var name in data) {
+            value = data[name];
+            param = encodeURIComponent(name).replace(/%20/g, '+')
+                + '=' + encodeURIComponent(value).replace(/%20/g, '+');
+            params.push(param);
+        }
+
+        data = params.join('&');
+    }
+
     xhr.open(type, url);
+
+    if (/post/i.test(type)) {
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    }
+
     xhr.send(data);
 
     return def;
