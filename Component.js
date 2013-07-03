@@ -1,4 +1,4 @@
-(function (win, doc, Class, ns) {
+(function (win, doc, EventDispatcher, ns) {
 
     'use strict';
 
@@ -100,4 +100,4 @@
     ------------------------------------------------------------- */
     ns.Component = Component;
 
-}(window, window.document, window.Class, window));
+}(window, window.document, window.EventDispatcher, window));

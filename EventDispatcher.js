@@ -1,4 +1,4 @@
-(function (win, doc, Class, ns) {
+(function (win, doc, Class, Disposable, ns) {
 
     /**
      * An Event object.
@@ -129,4 +129,4 @@
     ns.EventDispatcher = EventDispatcher;
     ns.EventObject     = EventObject;
 
-}(window, window.document, window.Class, window));
+}(window, window.document, window.Class, window.Disposable, window));

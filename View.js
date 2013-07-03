@@ -1,4 +1,4 @@
-(function (util, ns) {
+(function (util, Component, ns) {
     'use strict';
 
     var base_name = 'view-',
@@ -256,4 +256,4 @@
     ------------------------------------------------------------- */
     ns.View = View;
 
-}(util, window));
+}(util, window.Component, window));
