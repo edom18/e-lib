@@ -12,6 +12,12 @@
 
     'use strict';
 
+    //import math functions.
+    var sin = Math.sin,
+        cos = Math.cos,
+        pow = Math.pow,
+        sqrt = Math.sqrt;
+
     var easing = {
 
         easing1: function (a, b, x) {
