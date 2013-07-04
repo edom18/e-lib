@@ -42,7 +42,10 @@
                     this.events = attribute.events;
                 }
             }
-            if (util.isFunction(attribute.initialize)) {
+            if (
+                util.isFunction(attribute.initialize) &&
+                attribute.initialize !== this.initialize
+            ) {
 
                 var tmpFunc1 = this.initialize || function () {},
                     tmpFunc2 = attribute.initialize;
