@@ -69,13 +69,17 @@
 
             //fired `change` event that takes changed object.
             if (!options.silent) {
-                this.trigger('change', this._changed);
+                this.trigger('change', {
+                    changed: this._changed
+                });
 
                 //fired event of each paramaters.
                 for (key in this._changed) {
                     ret = {};
                     ret[key] = this._changed[key];
-                    this.trigger('change:' + key, ret);
+                    this.trigger('change:' + key, {
+                        changed: ret
+                    });
                 }
             }
 
