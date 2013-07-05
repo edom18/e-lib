@@ -7,7 +7,7 @@
     var Disposable = Class.extend({
         dispose: function () {
             if (this.isDisposed()) {
-                throw new Error('This module has been disposed.');
+                return false;
             }
 
             this._disposed = true;
