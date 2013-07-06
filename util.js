@@ -284,6 +284,19 @@ function getParams(str) {
     return ret;
 }
 
+/**
+ * Get template text.
+ * @param {string} id
+ */
+function getTemplate(id) {
+    var template = doc.getElementById('template-' + id);
+    return (!template) ? null : template.innerHTML;
+}
+
+/**
+ * As inner Deferred class.
+ * This will be used as simple deferred function.
+ */
 function _Deferred(func) {
     var _queue = [],
         _data,
@@ -606,6 +619,7 @@ util.isEmpty     = isEmpty;
 util.hasProp     = hasProp;
 util.ajax        = ajax;
 util.getParams   = getParams;
+util.getTemplate = getTemplate;
 util.makeHTMLNode = makeHTMLNode;
 util.getCssPropSupport = getCssPropSupport;
 
