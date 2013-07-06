@@ -287,10 +287,29 @@ function getParams(str) {
 /**
  * Get template text.
  * @param {string} id
+ * @param {?Object} param
  */
-function getTemplate(id) {
-    var template = doc.getElementById('template-' + id);
-    return (!template) ? null : template.innerHTML;
+function getTemplate(id, param) {
+    param || (param = {});
+    var temp = doc.getElementById('template-' + id);
+    return (!temp) ? null : template(temp.innerHTML, param);
+}
+
+/**
+ * Make text from tempalte with parameter.
+ * @param {string} text template text.
+ * @param {Object} param template value.
+ */
+function template(text, param) {
+    var reg1 = /#{(.*?)}/g,
+        ret = '';
+    //var reg2 = /##{(.*)}/g;
+
+    ret = text.replace(reg1, function ($0, $1) {
+        return param[$1];
+    });
+
+    return ret;
 }
 
 /**
@@ -619,6 +638,7 @@ util.isEmpty     = isEmpty;
 util.hasProp     = hasProp;
 util.ajax        = ajax;
 util.getParams   = getParams;
+util.template    = template;
 util.getTemplate = getTemplate;
 util.makeHTMLNode = makeHTMLNode;
 util.getCssPropSupport = getCssPropSupport;
@@ -630,3 +650,4 @@ util.abstractFunction = function () {throw new Error('MUST BE IMPLEMENT THIS FUN
 ns.util = util;
 
 }(window, document, window));
+
