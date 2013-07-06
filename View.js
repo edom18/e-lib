@@ -32,17 +32,6 @@
             }
         },
 
-        _parseAndAppendHtml: function (html) {
-            if (html instanceof HTMLElement) {
-            
-            }
-            var range = doc.createRange();
-            range.deleteContents();
-            range.selectNodeContents(doc.body);
-            var node = range.createContextualFragment(document.createElement('div'));
-            debugger;
-        },
-
         _overrideProps: function (attribute) {
             if (attribute.tagName) {
                 this.tagName = attribute.tagName;
