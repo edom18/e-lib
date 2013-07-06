@@ -338,7 +338,10 @@
             },
             initialize: function () {
                 var view1 = new View({ id: 'div1' });
-                var view2 = new View({ id: 'div2' });
+                var view2 = new View({
+                    id: 'div2',
+                    html: document.querySelector('.template').innerHTML
+                });
                 var view3 = new View({ id: 'div3' });
 
                 this.addChild(view1);
