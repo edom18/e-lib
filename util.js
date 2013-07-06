@@ -75,6 +75,10 @@ var isArray = Array.isArray || function (obj) {
     return toString.call(obj) === '[object Array]';
 };
 
+function isReference(obj) {
+    return (isFunction(obj) || isArray(obj) || isObject(obj));
+}
+
 
 
 function isEmpty(obj) {
@@ -188,6 +192,50 @@ function filter (arr, func) {
 
         return ret;
     }
+}
+
+function clone(obj) {
+
+    var ret  = null;
+
+    if (isObject(obj)) {
+        ret = {};
+
+        for (var key in obj) {
+            if (isReference(obj[key])) {
+                ret[key] = clone(obj[key]);
+            }
+            else {
+                ret[key] = obj[key];
+            }
+        }
+    }
+    else if (isArray(obj)) {
+        ret = [];
+
+        for (var i = 0, l = obj.length; i < l; i++) {
+            if (isReference(obj[i])) {
+                ret.push(clone(obj[i]));
+            }
+            else {
+                ret.push(obj[i]);
+            }
+        }
+    }
+    else if (isFunction(obj)) {
+        var tmp = obj.toString().replace(/[\r\n]*/gm, ''),
+            match = tmp.match(/function\s*(.*?)\s*\((.*?)\)\s*{(.*?)}/i),
+            name = match[1],
+            argList = match[2].replace(/\s+/g, ''),
+            contents = match[3];
+
+        ret = new Function(argList, contents);
+    }
+    else {
+        ret = obj;
+    }
+
+    return ret;
 }
 
 
@@ -626,12 +674,14 @@ util.Deferred    = Deferred;
 util.when        = when;
 util.makeArr     = makeArr;
 util.bind        = bind;
+util.clone       = clone;
 util.copyClone   = copyClone;
 util.isObject    = isObject;
 util.isFunction  = isFunction;
 util.isString    = isString;
 util.isNumber    = isNumber;
 util.isArray     = isArray;
+util.isReference = isReference;
 util.isNull      = isNull;
 util.isUndefined = isUndefined;
 util.isEmpty     = isEmpty;
