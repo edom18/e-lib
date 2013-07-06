@@ -22,8 +22,8 @@
 
             this.model = attribute.model;
 
-            if (args.html) {
-                this.html(args.html);
+            if (attribute.html) {
+                this.html(attribute.html);
             }
 
             //called `initialize` function if that exist on attributes.
