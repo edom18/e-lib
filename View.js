@@ -1,4 +1,4 @@
-(function (util, Component, ns) {
+(function (win, doc, util, Component, ns) {
     'use strict';
 
     var base_name = 'view-',
@@ -22,11 +22,27 @@
 
             this.model = attribute.model;
 
+            if (args.html) {
+                this.html(args.html);
+            }
+
             //called `initialize` function if that exist on attributes.
             if (util.isFunction(this.initialize)) {
                 this.initialize.apply(this, arguments);
             }
         },
+
+        _parseAndAppendHtml: function (html) {
+            if (html instanceof HTMLElement) {
+            
+            }
+            var range = doc.createRange();
+            range.deleteContents();
+            range.selectNodeContents(doc.body);
+            var node = range.createContextualFragment(document.createElement('div'));
+            debugger;
+        },
+
         _overrideProps: function (attribute) {
             if (attribute.tagName) {
                 this.tagName = attribute.tagName;
@@ -57,6 +73,11 @@
             }
         },
 
+        html: function (html) {
+            var node = util.makeHTMLNode(html);
+            this.append(node);
+        },
+
         /**
          * Set styles to the element.
          * @param {string|Object} styles
@@ -85,6 +106,10 @@
             for (var name in attributes) {
                 this.el.setAttribute(name, attributes[name]);
             }
+        },
+
+        append: function (node) {
+            this.el.appendChild(node);
         },
 
         /**
@@ -247,7 +272,7 @@
          * Create a base element.
          */
         _createElement: function () {
-            var el = document.createElement(this.tagName);
+            var el = doc.createElement(this.tagName);
             el.id = this.id;
             el.className = this.className;
             return el;
@@ -259,4 +284,4 @@
     ------------------------------------------------------------- */
     ns.View = View;
 
-}(util, window.Component, window));
+}(window, document, util, window.Component, window));

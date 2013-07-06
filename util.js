@@ -244,6 +244,26 @@ function indexOf (arr, item) {
 }
 
 /**
+ * Make HTML node with html text.
+ * @param {string} html
+ */
+function makeHTMLNode(html) {
+    var range = null,
+        node  = null;
+
+    if (html instanceof HTMLElement) {
+        return html;
+    }
+
+    range = doc.createRange();
+    range.deleteContents();
+    range.selectNodeContents(doc.body);
+    node = range.createContextualFragment(html);
+
+    return node;
+}
+
+/**
  * return object by split string within `&` and `=`.
  * @returns {Object} splited parameters.
  */
@@ -586,6 +606,7 @@ util.isEmpty     = isEmpty;
 util.hasProp     = hasProp;
 util.ajax        = ajax;
 util.getParams   = getParams;
+util.makeHTMLNode = makeHTMLNode;
 util.getCssPropSupport = getCssPropSupport;
 
 util.nullFunction = function () {};
