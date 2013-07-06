@@ -131,6 +131,9 @@
         },
         get: function (name) {
             return this.attributes[name];
+        },
+        toJSON: function () {
+            return util.copyClone({}, this.attributes);
         }
     });
 
