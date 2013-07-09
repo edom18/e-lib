@@ -22,6 +22,36 @@
         },
 
         /**
+         * @param {number} index a children index.
+         * @return {Panel} return panel as index.
+         */
+        getAt: function (index) {
+            if (this.children) {
+                return this.children[index];
+            }
+            return null;
+        },
+
+        /**
+         * Each to apply `func` to children.
+         * @param {Function} func to apply function.
+         */
+        each: function (func) {
+            var children = this.children;
+
+            if (!util.isArray(children)) {
+                return false;
+            }
+
+            children = children.slice();
+            for (var i = 0, l = children.length; i < l; i++) {
+                func(children[i], i);
+            }
+
+            children = null;
+        },
+
+        /**
          * Add a component.
          * @param {Component} cmp
          */
