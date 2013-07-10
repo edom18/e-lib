@@ -18,6 +18,7 @@
             //setting this view's id.
             this.id = (attribute.id) ? attribute.id : (base_name + index_id++);
             this.el = attribute.el || this._createElement();
+            this.el.viewObject = this;
             this._setEvents();
 
             this.model = attribute.model;
