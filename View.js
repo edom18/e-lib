@@ -193,6 +193,10 @@
                 el   = this.el,
                 domHandlers = this._domHandlers || (this._domHandlers = []);
         
+            /**
+             * Actual event handler.
+             * @param {Event} e
+             */
             function _innerHandler(e) {
                 var res, evt, els;
 
@@ -205,12 +209,15 @@
 
                 for (var i = 0, l = els.length; i < l; i++) {
                     res = els[i].compareDocumentPosition(e.target);
+
                     if (!(res === 0 || res & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
                         continue;
                     }
+
                     evt = new EventObject(e, {
                         originalEvent: e
                     });
+
                     evt.currentTarget = els[i];
                     handler.call((context || that), evt);
                     evt = null;
