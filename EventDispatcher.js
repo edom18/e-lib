@@ -8,15 +8,22 @@
     var EventObject = Class.extend({
         init: function (context, args, opt) {
             var stopPropagation = this.stopPropagation;
+            var preventDefault  = this.preventDefault;
             util.copyClone(this, context, args, opt);
             this._context = context;
             this.stopPropagation = stopPropagation;
+            this.preventDefault = preventDefault;
         },
         stopPropagation: function () {
             if (this._context.stopPropagation) {
                 this._context.stopPropagation();
             }
             this._context._bubbleCanceled = true;
+        },
+        preventDefault: function () {
+            if (this._context.preventDefault) {
+                this._context.preventDefault();
+            }
         }
     });
 
