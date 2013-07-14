@@ -129,6 +129,19 @@
         }
     });
 
+    EventDispatcher.getEventListeners = function (target, typ) {
+        var handlers = target.handlers;
+
+        if (!handlers) {
+            return null;
+        }
+        if (typ) {
+            return handlers[typ];
+        }
+        
+        return handlers;
+    };
+
     /*! ---------------------------------------------------------
         EXPORTS
     ------------------------------------------------------------- */

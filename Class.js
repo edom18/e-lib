@@ -16,6 +16,9 @@
             }
         }
 
+        //Copy class methods.
+        util.copyClone(Class, SuperClass);
+
         Class.prototype = Object.create(SuperClass.prototype, {
             constructor: {
                 value: Class,
