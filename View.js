@@ -33,6 +33,9 @@
             }
         },
 
+        /*! --------------------------------------------------------------
+            PRIVATE METHODS.
+        ------------------------------------------------------------------*/
         _overrideProps: function (attribute) {
             if (attribute.tagName) {
                 this.tagName = attribute.tagName;
@@ -63,6 +66,9 @@
             }
         },
 
+        /*! --------------------------------------------------------------
+            PUBLIC METHODS.
+        ------------------------------------------------------------------*/
         html: function (html) {
             var node = util.makeHTMLNode(html);
             this.append(node);
@@ -98,6 +104,54 @@
             }
         },
 
+        /**
+         * add class name to the `this.el`.
+         * @param {string} className
+         */
+        addClass: function (className) {
+            if (this.el.classList) {
+                this.el.classList.add(className);
+            }
+            else {
+                var classes = this.el.className;
+                var class_obj = classes.split(/\s+/);
+                for (var i = 0, l = class_obj.length; i < l; i++) {
+                    if (class_obj[i] === className) {
+                        return false;
+                    }
+                }
+
+                class_obj.push(className);
+                this.el.className = class_obj.join(' ');
+            }
+        },
+
+        /**
+         * remove class name from the `this.el`
+         * @param {string} className
+         */
+        removeClass: function (className) {
+            if (this.el.classList) {
+                this.el.classList.remove(className);
+            }
+            else {
+                var classes = this.el.className;
+                var class_obj = classes.split(/\s+/);
+                for (var i = 0, l = class_obj.length; i < l; i++) {
+                    if (class_obj[i] === className) {
+                        class_obj.splice(i, 1);
+                        break;
+                    }
+                }
+
+                this.el.className = class_obj.join(' ');
+            }
+        },
+
+        /**
+         * Append element to the `this.el`.
+         * @param {Element} node
+         */
         append: function (node) {
             this.el.appendChild(node);
         },
