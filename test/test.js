@@ -200,6 +200,22 @@
         });
     });
 
+    describe('View Spec', function () {
+        it('ViewはaddClassでclassNameを追加できる。', function () {
+            var view = new View();
+            view.addClass('hoge');
+            assert.equal(true, /hoge/.test(view.el.className));
+        });
+
+        it('ViewはremoveClassでclassNameを追加できる。', function () {
+            var view = new View();
+            view.addClass('hoge');
+            assert.equal(true, /hoge/.test(view.el.className));
+            view.removeClass('hoge');
+            assert.equal(false, /hoge/.test(view.el.className));
+        });
+    });
+
     describe('EventDispatcher Spec', function () {
 
         var evt = null;
