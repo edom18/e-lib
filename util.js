@@ -18,19 +18,6 @@ var objProto = Object.prototype,
     toString = objProto.toString;
 
 
-/* ---------------------------------------------------------------
-   EXTEND BUILTIN OBJECTS
------------------------------------------------------------------- */
-if (typeof Object.create !== 'function') {
-    Object.create = function (o) {
-
-        function F() {}
-        F.prototype = o;
-
-        return new F();
-    };
-}
-
 /**
  * @namespace
  */
