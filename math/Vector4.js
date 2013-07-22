@@ -48,7 +48,7 @@
             _x = x || 0;
             _y = y || 0;
             _z = z || 0;
-            _w = w (w !== undefined) ? w : 1;
+            _w = (w !== undefined) ? w : 1;
         }
 
         this.x = _x;
