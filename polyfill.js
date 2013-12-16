@@ -125,4 +125,17 @@ else if (!Object.defineProperty) {
     }
 }
 
+window.requestAnimFrame =
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    function (callback) {
+        setInterval(callback, 16);
+    };
 
+if (!getComputedStyle) {
+    window.getComputedStyle = function (el) {
+        return el.currentStyle;
+    };
+}
