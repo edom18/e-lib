@@ -134,7 +134,7 @@ window.requestAnimFrame =
         setInterval(callback, 16);
     };
 
-if (!getComputedStyle) {
+if (!window.getComputedStyle) {
     window.getComputedStyle = function (el) {
         return el.currentStyle;
     };

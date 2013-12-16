@@ -649,6 +649,51 @@ function chain() {
 }
 
 
+/**
+ * add class name to the `this.el`.
+ * @param {string} className
+ */
+function addClass(el, className) {
+    if (el.classList) {
+        el.classList.add(className);
+    }
+    else {
+        var classes = el.className;
+        var class_obj = classes.split(/\s+/);
+        for (var i = 0, l = class_obj.length; i < l; i++) {
+            if (class_obj[i] === className) {
+                return false;
+            }
+        }
+
+        class_obj.push(className);
+        el.className = class_obj.join(' ');
+    }
+}
+
+/**
+ * remove class name from the `this.el`
+ * @param {string} className
+ */
+function removeClass(el, className) {
+    if (el.classList) {
+        el.classList.remove(className);
+    }
+    else {
+        var classes = el.className;
+        var class_obj = classes.split(/\s+/);
+        for (var i = 0, l = class_obj.length; i < l; i++) {
+            if (class_obj[i] === className) {
+                class_obj.splice(i, 1);
+                break;
+            }
+        }
+
+        el.className = class_obj.join(' ');
+    }
+}
+
+
 /* --------------------------------------------------------------------
     EXPORT
 ----------------------------------------------------------------------- */
@@ -679,6 +724,8 @@ util.template    = template;
 util.getTemplate = getTemplate;
 util.makeHTMLNode = makeHTMLNode;
 util.getCssPropSupport = getCssPropSupport;
+util.addClass = addClass;
+util.removeClass = removeClass;
 
 util.nullFunction = function () {};
 util.abstractFunction = function () {throw new Error('MUST BE IMPLEMENT THIS FUNCTION.');}
