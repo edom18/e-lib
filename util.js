@@ -694,6 +694,35 @@ function removeClass(el, className) {
 }
 
 
+/**
+ * Add event listener's wrapper
+ */
+function addListener(el, type, callback, phase) {
+    phase || (phase = false);
+
+    if (el.addEventListener) {
+        el.addEventListener(type, callback, phase);
+    }
+    else {
+        el.attachEvent('on' + type, callback);
+    }
+}
+
+/**
+ * Remove event listener's wrapper
+ */
+function removeListener(el, type, callback, phase) {
+    phase || (phase = false);
+
+    if (el.removeEventListener) {
+        el.addEventListener(type, callback, phase);
+    }
+    else {
+        el.detachEvent('on' + type, callback);
+    }
+}
+
+
 /* --------------------------------------------------------------------
     EXPORT
 ----------------------------------------------------------------------- */
@@ -726,6 +755,8 @@ util.makeHTMLNode = makeHTMLNode;
 util.getCssPropSupport = getCssPropSupport;
 util.addClass = addClass;
 util.removeClass = removeClass;
+util.addListener = addListener;
+util.removeListener = removeListener;
 
 util.nullFunction = function () {};
 util.abstractFunction = function () {throw new Error('MUST BE IMPLEMENT THIS FUNCTION.');}
