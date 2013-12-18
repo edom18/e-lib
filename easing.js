@@ -20,7 +20,7 @@
 
     var easing = {
 
-        easing1: function (a, b, x) {
+        leap: function (a, b, x) {
             x = 1.0 - x;
             var f = 1.0 - (x * x * x * x);
             return a * (1.0 - f) + b * f; 
@@ -49,6 +49,41 @@
         easeOutExpo: function (a, b, x) {
             var c = b - a;
             return c * (-pow(2, -10 * x) + 1) + a;
+        },
+
+        // easeInBack: function (t, b, c, d, s) {
+        easeInBack: function (a, b, x, s) {
+            if (s === undefined) {
+                s = 1.70158;
+            }
+
+            var c = b - a;
+            return c * x * x * ((s + 1) * x - s) + a;
+        },
+
+        easeOutBack: function (a, b, x, s) {
+            if (s === undefined) {
+                s = 1.70158;
+            }
+
+            var c = b - a;
+            var t = x - 1;
+            return c * (t * t * ((s + 1) * t + s) + 1) + a;
+        },
+
+        easeInOutBack: function (a, b, x, s) {
+            if (s === undefined) {
+                s = 1.70158; 
+            }
+
+            var c = b - a;
+            var t = x * 2;
+
+            if (t < 1) {
+                return c / 2 * (t * t * (((s *= (1.525)) + 1) * t - s)) + a;
+            }
+
+            return c / 2 * ((t -= 2) * t * (((s *= (1.525)) + 1) * t + s) + 2) + a;
         }
     };
 
