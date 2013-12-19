@@ -326,7 +326,7 @@ function getParams(str) {
  */
 function getTemplate(id, param) {
     param || (param = {});
-    var temp = doc.getElementById('template-' + id);
+    var temp = doc.getElementById(id);
     return (!temp) ? null : template(temp.innerHTML, param);
 }
 
