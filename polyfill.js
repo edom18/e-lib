@@ -131,7 +131,16 @@ window.requestAnimFrame =
     window.mozRequestAnimationFrame ||
     window.msRequestAnimationFrame ||
     function (callback) {
-        setInterval(callback, 16);
+        return setTimeout(callback, 16);
+    };
+
+window.cancelAnimFrame = 
+    window.cancelAnimationFrame ||
+    window.webkitCancelAnimationFrame ||
+    window.mozCancelAnimationFrame ||
+    window.msCancelAnimationFrame ||
+    function (id) {
+        clearTimeout(id);
     };
 
 if (!window.getComputedStyle) {
