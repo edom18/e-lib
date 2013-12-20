@@ -11,7 +11,7 @@
 
         /** @override */
         update: function (timeStep) {
-            if (this.ended) {
+            if (this.ended || this.linking) {
                 return;
             }
 
