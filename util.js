@@ -17,6 +17,13 @@ var objProto = Object.prototype,
     arrSlice = arrProto.slice,
     toString = objProto.toString;
 
+var isTouch = 'ontouchstart' in window;
+var EventType = {
+    MOUSE_DOWN: isTouch ? 'touchstart' : 'mousedown',
+    MOUSE_MOVE: isTouch ? 'touchmove' : 'mousemove',
+    MOUSE_UP  : isTouch ? 'touchend' : 'mouseup'
+};
+
 
 /**
  * @namespace
@@ -693,7 +700,6 @@ function removeClass(el, className) {
     }
 }
 
-
 /**
  * Add event listener's wrapper
  */
@@ -727,6 +733,10 @@ function removeListener(el, type, callback, phase) {
     EXPORT
 ----------------------------------------------------------------------- */
 //for util
+
+util.isTouch = isTouch;
+util.EventType = EventType;
+
 util.every       = every;
 util.each        = each;
 util.chain       = chain;
