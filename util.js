@@ -19,6 +19,7 @@ var objProto = Object.prototype,
 
 var isTouch = 'ontouchstart' in window;
 var EventType = {
+    CLICK: 'click',
     MOUSE_DOWN: isTouch ? 'touchstart' : 'mousedown',
     MOUSE_MOVE: isTouch ? 'touchmove' : 'mousemove',
     MOUSE_UP  : isTouch ? 'touchend' : 'mouseup'
@@ -721,7 +722,7 @@ function removeListener(el, type, callback, phase) {
     phase || (phase = false);
 
     if (el.removeEventListener) {
-        el.addEventListener(type, callback, phase);
+        el.removeEventListener(type, callback, phase);
     }
     else {
         el.detachEvent('on' + type, callback);
