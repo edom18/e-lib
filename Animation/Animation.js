@@ -97,8 +97,12 @@
      * Create animation as a holder.
      * @return {Animation}
      */
-    Animation.createHolder = function (name) {
-        return new Animation(null, 0, {name: name || ''});
+    Animation.createHolder = function (name, opt) {
+
+        opt || (opt = {});
+        opt.name = name || '';
+
+        return new Animation(null, 0, opt);
     };
 
     /*! -----------------------------------------
