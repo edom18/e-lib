@@ -69,7 +69,7 @@
                 return;
             }
 
-            if (!this.started) {
+            if (!this.started && !this.softStoped) {
                 this.started = true;
                 this.running = true;
                 this.trigger('willstart');
