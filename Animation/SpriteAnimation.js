@@ -13,6 +13,8 @@
     var SpriteAnimation = EventDispatcher.extend({
         $class: 'SpriteAnimation',
 
+        isLoop: false,
+
         init: function (targets, isLoop) {
 
             if (!util.isArray(targets)) {
@@ -23,16 +25,14 @@
             this.animations = [];
 
             for (var i = 0, l = targets.length; i < l; i++) {
-                this.animations.push({
-                    el: targets[i].el,
+                this.animations.push(util.copyClone({
                     dir: 1,
                     index: 1,
                     prevTime: 0,
-                    baseName: targets[i].baseName,
-                    length: targets[i].length,
-                    interval: targets[i].interval || 1000,
-                    alternative: targets[i].alternative ? true : false
-                });
+                    interval: 1000,
+                    alternative: false,
+                    fillMode: false
+                }, targets[i], true));
             }
         },
 
@@ -69,7 +69,10 @@
 
                         if (animation.index === animation.length) {
                             if (!isLoop) {
-                                removeClass(animation.el, animation.baseName + animation.index);
+                                if (!animation.fillMode) {
+                                    removeClass(animation.el, animation.baseName + animation.index);
+                                }
+
                                 animation.ended = true;
                             }
                             if (animation.alternative) {
