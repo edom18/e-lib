@@ -71,6 +71,7 @@
 
             if (!this.started) {
                 this.started = true;
+                this.running = true;
                 this.trigger('willstart');
             }
 
