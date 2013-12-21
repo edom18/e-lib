@@ -81,6 +81,10 @@
         end: function () {
             this._super();
 
+            if (this.ended) {
+                return;
+            }
+
             if (this.loop) {
                 this.loop.dispose();
                 this.loop = null;

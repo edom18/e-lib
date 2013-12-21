@@ -189,6 +189,11 @@
          * End of the animation.
          */
         end: function (data) {
+
+            if (this.ended) {
+                return;
+            }
+
             this.ended = true;
             this.running = false;
 
