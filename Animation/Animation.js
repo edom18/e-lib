@@ -22,6 +22,7 @@
 
             this.name = opt.name || (animationNamePrefix + (++animationCnt));
             this.userData = opt.userData;
+            this.neverStop = opt.neverStop ? true : false;
 
             if (delay) {
                 this.running = false;
@@ -71,7 +72,7 @@
                 return;
             }
 
-            if (!this.started && !this.softStoped) {
+            if (!this.started && (!this.softStoped || this.neverStop)) {
                 this.started = true;
                 this.running = true;
                 this.trigger('willstart');

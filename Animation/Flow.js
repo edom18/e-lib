@@ -8,6 +8,7 @@
         endedPriorityChildNum: 0,
         priorityMode: false,
         priorityStart: false,
+
         init: function () {
             this._super();
             this.priorityChildren = [];
@@ -98,6 +99,22 @@
 
         isPriority: function () {
             return this.priorityMode;
+        },
+
+        linkToAsLast: function (seq) {
+            if (this.isPriority()) {
+
+                var animations = this.getPriorityAnimations();
+
+                for (var i = 0, l = animations.length; i < l; i++) {
+                    seq.linkTo(animations[i]);
+                }
+
+                this.addPriority(seq);
+            }
+            else {
+                this.addPriority(seq);
+            }
         },
 
         /** @override */
