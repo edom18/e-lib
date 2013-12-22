@@ -7,6 +7,7 @@
 
     var Animation = Sequence.extend({
         $class: 'Animation',
+        running: false,
         isSubAnimation: false,
         started: false,
         loop: null,
@@ -28,6 +29,7 @@
 
             if (opt.asSubAnimation) {
                 this.isSubAnimation = true;
+                this.running = true;
             }
 
             if (opt.standalone) {

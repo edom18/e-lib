@@ -27,6 +27,7 @@
 
             this.children = null;
             this.childNum = 0;
+            this.parent = null;
         },
 
         /**
@@ -112,8 +113,25 @@
                     seq[i].softStoped = true;
                 }
 
+                seq[i].parent = this;
                 seq[i].on('end', this.endChild, this);
             }
+        },
+
+        /**
+         * Return animations by name.
+         * @param {string} name
+         */
+        getAnimationsByName: function (name) {
+            var result = [];
+
+            for (var i = 0, l = this.children.length; i < l; i++) {
+                if (this.children[i].name === name) {
+                    result.push(this.children[i]);
+                }
+            }
+
+            return result;
         },
 
         endChild: function () {
