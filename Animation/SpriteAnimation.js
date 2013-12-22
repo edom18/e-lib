@@ -6,6 +6,78 @@
     var addClass = util.addClass,
         removeClass = util.removeClass;
 
+
+    /**
+     * Sprite renderer's base class.
+     */
+    var SpriteRenderer = Class.extend({
+        $class: 'SpriteRenderer',
+        render: util.nullFunction
+    });
+
+    var SpriteClassNameRenderer = SpriteRenderer.extend({
+        $class: 'SpriteClassNameRenderer',
+
+        /** @override */
+        render: function (animation, isLoop) {
+
+            removeClass(animation.el, animation.baseName + animation.index);
+
+            animation.index += animation.dir;
+
+            addClass(animation.el, animation.baseName + animation.index);
+
+            if (animation.index === animation.length) {
+                if (!isLoop) {
+                    if (!animation.fillMode) {
+                        removeClass(animation.el, animation.baseName + animation.index);
+                    }
+
+                    animation.ended = true;
+                }
+                if (animation.alternative) {
+                    animation.dir = -1;
+                }
+                else {
+                    animation.index = 1;
+                }
+            }
+            else if (animation.index === 1 && animation.alternative) {
+                animation.dir = 1;
+            }
+        }
+    });
+
+    var SpriteFileRender = SpriteRenderer.extend({
+        $class: 'SpriteFileRender',
+
+        /** @override */
+        render: function (animation, isLoop) {
+
+            animation.el.style.background = 'url(' + animation.baseName + animation.index + '.' + animation.fileType + ') left top no-repeat';
+            animation.index += animation.dir;
+
+            if (animation.index === animation.length) {
+                if (!isLoop) {
+                    if (!animation.fillMode) {
+                        animation.el.style.background = 'url(' + animation.baseName + 1 + '.' + animation.fileType + ') left top no-repeat';
+                    }
+
+                    animation.ended = true;
+                }
+                if (animation.alternative) {
+                    animation.dir = -1;
+                }
+                else {
+                    animation.index = 1;
+                }
+            }
+            else if (animation.index === 1 && animation.alternative) {
+                animation.dir = 1;
+            }
+        }
+    });
+
     /**
      * Player class
      * @class
@@ -15,7 +87,7 @@
 
         isLoop: false,
 
-        init: function (targets, isLoop) {
+        init: function (targets, isLoop, useFile) {
 
             if (!util.isArray(targets)) {
                 targets = [targets];
@@ -23,6 +95,13 @@
 
             this.isLoop = isLoop ? true : false;
             this.animations = [];
+
+            if (useFile) {
+                this.renderer = new SpriteFileRender();
+            }
+            else {
+                this.renderer = new SpriteClassNameRenderer();
+            }
 
             for (var i = 0, l = targets.length; i < l; i++) {
                 this.animations.push(util.copyClone({
@@ -47,6 +126,7 @@
             var animations = this.animations;
             var len = animations.length;
             var isLoop = this.isLoop;
+            var render = this.renderer.render;
 
             (function loop() {
 
@@ -61,31 +141,7 @@
                     }
 
                     if (now - animation.prevTime > animation.interval) {
-                        removeClass(animation.el, animation.baseName + animation.index);
-
-                        animation.index += animation.dir;
-
-                        addClass(animation.el, animation.baseName + animation.index);
-
-                        if (animation.index === animation.length) {
-                            if (!isLoop) {
-                                if (!animation.fillMode) {
-                                    removeClass(animation.el, animation.baseName + animation.index);
-                                }
-
-                                animation.ended = true;
-                            }
-                            if (animation.alternative) {
-                                animation.dir = -1;
-                            }
-                            else {
-                                animation.index = 1;
-                            }
-                        }
-                        else if (animation.index === 1 && animation.alternative) {
-                            animation.dir = 1;
-                        }
-
+                        render(animation, isLoop);
                         animation.prevTime = now;
                     }
                 }
