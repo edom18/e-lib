@@ -61,6 +61,22 @@
             }
         },
 
+        /** @override */
+        getAnimationsByName: function (name) {
+
+            var result;
+
+            result = this._super(name);
+
+            for (var i = 0, l = this.priorityChildren.length; i < l; i++) {
+                if (this.children[i].name === name) {
+                    result.push(this.priorityChildren[i]);
+                }
+            }
+
+            return result;
+        },
+
         getPriorityAnimations: function () {
             return util.makeArr(this.priorityChildren);
         },
