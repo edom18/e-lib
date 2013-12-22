@@ -86,7 +86,6 @@
             return c * (-pow(2, -10 * x) + 1) + a;
         },
 
-        // easeInBack: function (t, b, c, d, s) {
         easeInBack: function (a, b, x, s) {
             if (s === undefined) {
                 s = 1.70158;
@@ -119,6 +118,25 @@
             }
 
             return c / 2 * ((t -= 2) * t * (((s *= (1.525)) + 1) * t + s) + 2) + a;
+        },
+
+        easeOutBounce: function (a, b, x) {
+
+            var t = x;
+            var c = b - a;
+
+            if (t < (1 / 2.75)) {
+                return c * (7.5625 * t * t) + a;
+            }
+            else if (t < (2 / 2.75)) {
+                return c * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.75) + a;
+            }
+            else if (t < (2.5 / 2.75)) {
+                return c * (7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375) + a;
+            }
+            else {
+                return c * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375) + a;
+            }
         }
     };
 
