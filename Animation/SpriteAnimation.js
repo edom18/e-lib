@@ -54,13 +54,13 @@
         /** @override */
         render: function (animation, isLoop) {
 
-            animation.el.style.background = 'url(' + animation.baseName + animation.index + '.' + animation.fileType + ') left top no-repeat';
+            animation.el.style.backgroundImage = 'url(' + animation.baseName + animation.index + '.' + animation.fileType + ')';
             animation.index += animation.dir;
 
             if (animation.index === animation.length) {
                 if (!isLoop) {
                     if (!animation.fillMode) {
-                        animation.el.style.background = 'url(' + animation.baseName + 1 + '.' + animation.fileType + ') left top no-repeat';
+                        animation.el.style.backgroundImage = 'url(' + animation.baseName + 1 + '.' + animation.fileType + ')';
                     }
 
                     animation.ended = true;
