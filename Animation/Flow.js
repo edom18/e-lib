@@ -92,6 +92,7 @@
                     this.end();
                 }
                 else {
+                    this.trigger('priorityEnd');
                     this.resumeSoftStop();
                 }
             }
