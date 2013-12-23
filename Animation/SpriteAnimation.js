@@ -35,11 +35,16 @@
 
                     animation.ended = true;
                 }
-                if (animation.alternative) {
-                    animation.dir = -1;
-                }
                 else {
-                    animation.index = 1;
+
+                    removeClass(animation.el, animation.baseName + animation.index);
+
+                    if (animation.alternative) {
+                        animation.dir = -1;
+                    }
+                    else {
+                        animation.index = 1;
+                    }
                 }
             }
             else if (animation.index === 1 && animation.alternative) {
