@@ -716,6 +716,19 @@ function addListener(el, type, callback, phase) {
 }
 
 /**
+ * Add event listener to a `el` onece.
+ */
+function addOneListener(el, type, callback, phase) {
+
+    function _listener() {
+        util.removeListener(el, type, _listener, phase);
+        callback.apply(el, arguments);
+    }
+
+    util.addListener(el, type, _listener, phase);
+}
+
+/**
  * Remove event listener's wrapper
  */
 function removeListener(el, type, callback, phase) {
@@ -767,6 +780,7 @@ util.getCssPropSupport = getCssPropSupport;
 util.addClass = addClass;
 util.removeClass = removeClass;
 util.addListener = addListener;
+util.addOneListener = addOneListener;
 util.removeListener = removeListener;
 
 util.nullFunction = function () {};
