@@ -720,9 +720,9 @@ function addListener(el, type, callback, phase) {
  */
 function addOneListener(el, type, callback, phase) {
 
-    function _listener() {
+    function _listener(e) {
         util.removeListener(el, type, _listener, phase);
-        callback.apply(el, arguments);
+        callback.apply(callback, arguments);
     }
 
     util.addListener(el, type, _listener, phase);
