@@ -34,7 +34,7 @@
                 var now = +new Date();
                 var stepTime = now - prevTime;
 
-                if (stepTime > interval) {
+                if (stepTime >= interval) {
                     step(stepTime);
                     prevTime = now;
                 }
