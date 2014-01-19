@@ -219,6 +219,7 @@
 
             this.clear();
             this.children = null;
+            this.trigger('willend', data);
             this.trigger('end', data);
         }
     });
