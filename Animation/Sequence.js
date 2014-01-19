@@ -217,11 +217,7 @@
             this.ended = true;
             this.running = false;
 
-            for (var i = 0, l = this.childNum; i < l; i++) {
-                this.children[i].dispose();
-            }
-
-            this.childNum = 0;
+            this.clear();
             this.children = null;
             this.trigger('end', data);
         }
