@@ -5,6 +5,7 @@
     var Flow = Sequence.extend({
         $class: 'Flow',
         priorityChildNum: 0,
+        priorityChildren: null,
         endedPriorityChildNum: 0,
         priorityMode: false,
         priorityStart: false,
@@ -12,6 +13,19 @@
         init: function () {
             this._super();
             this.priorityChildren = [];
+        },
+
+        /** @override */
+        clear: function () {
+            this._super();
+
+            for (var i = 0; i < this.priorityChildNum; i++) {
+                this.priorityChildren[i].dispose();
+            }
+
+            this.priorityChildren = [];
+            this.priorityChildNum = 0;
+            this.endedPriorityChildNum = 0;
         },
 
         /** @override */

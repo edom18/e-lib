@@ -27,6 +27,7 @@
 
             this.children = null;
             this.childNum = 0;
+            this.endedChildNum = 0;
             this.parent = null;
         },
 
@@ -40,6 +41,7 @@
 
             this.children = [];
             this.childNum = 0;
+            this.endedChildNum = 0;
         },
 
         /**
